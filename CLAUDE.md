@@ -1,0 +1,21 @@
+# artini.io
+
+artini, sanatçıları ve eserlerini tanıtan bir Instagram hesabı (@artini.io). Bu repo, hesabın vitrin sitesi. Satış yapılmıyor; site Instagram'ı tamamlar, sanatçıları kalıcı bir yerde gösterir ve sanatçı başvurusu alır.
+
+## Yapı
+- Tek dosya: `index.html` (HTML + CSS + JS bir arada). Build adımı yok.
+- Netlify, `main` dalına her push'ta siteyi otomatik yayınlar. Alan adı: artini.io (DNS Hostinger'da).
+- Görseller eklenecekse `eserler/` klasörüne konur, `index.html` içinden göreli yolla çağrılır (ör. `eserler/ada-demir.jpg`).
+
+## İçerik nasıl düzenlenir
+`index.html` içindeki `BURADAN DÜZENLE` bloğu:
+- `IG_HANDLE`: Instagram kullanıcı adı.
+- `HAFTANIN_ESERI`: üstteki öne çıkan eser.
+- `SANATCILAR`: her sanatçı bir satır. Alanlar: `ad`, `eser`, `yil`, `tur` (filtre: Suluboya, Yağlı boya, Fotoğraf, Karakalem, Dijital), `teknik`, `olcu`, `ig`, `gorsel`, `gonderi` (Instagram gönderi linki), `cerceve` (wood | black | gold | light).
+- `gorsel` boşsa yer tutucu soyut bir resim çizilir. `ornek:true` olanlar yer tutucudur; gerçek veriyle değiştirince bu alanı kaldır.
+
+## Tasarım
+Gün ışığı alan galeri duvarı: açık sıcak zemin, çerçeveli eserler ve paspartu, müze etiketi tarzı künyeler, tek vurgu rengi kraliyet mavisi (#1A47A6), font Newsreader. Tek tema (açık). Bu dili koru.
+
+## Dil
+Tüm site metinleri Türkçe; ton samimi, sıcak ve özenli.
