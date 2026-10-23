@@ -89,6 +89,27 @@ h2{font-weight:400;font-size:clamp(36px,4.2vw,50px);line-height:1.05;letter-spac
 .handle{color:var(--blue);text-underline-offset:3px}
 .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);border:1px solid currentColor;border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:2px}
 
+/* sergiler carousel */
+.sg-nav{display:flex;align-items:center;gap:10px}
+.sg-btn{width:42px;height:42px;border-radius:50%;border:1px solid #A9A398;background:rgba(255,255,255,.5);font:400 18px var(--serif);color:var(--ink);cursor:pointer}
+.sg-btn:hover{border-color:var(--blue);color:var(--blue)}
+.sg-btn[disabled]{opacity:.35;cursor:default;border-color:#A9A398;color:var(--ink)}
+.sg-nav .more-link{margin-left:10px}
+.sg-track{list-style:none;margin:0;padding:6px 2px 18px;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3*22px)/4);gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.sg-track::-webkit-scrollbar{display:none}
+.sg-card{scroll-snap-align:start;min-width:0}
+.sg-card a{display:block;text-decoration:none}
+.sg-card .frame{padding:7px}
+.sg-art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.sg-poster{aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;padding:18px;color:#fff;position:relative;overflow:hidden;background:var(--c1)}
+.sg-poster::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 100% 0%,var(--c2) 0%,transparent 60%),radial-gradient(90% 70% at 0% 100%,var(--c3) 0%,transparent 70%);opacity:.9}
+.sg-poster > *{position:relative}
+.sg-poster .pn{font-size:54px;line-height:.9;letter-spacing:-.03em}
+.sg-poster .pt{font-size:20px;line-height:1.15;text-wrap:balance}
+.sg-card .label{margin-top:16px}
+.sg-card .num{display:inline;width:auto;height:auto;border:0;background:none;font-size:14px;color:var(--blue);margin-right:6px}
+.sg-card a:hover .name{color:var(--blue)}
+
 /* writing */
 .more-link{color:var(--blue);text-decoration:none;font-size:16px;white-space:nowrap}
 .posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
@@ -119,6 +140,7 @@ footer .links span+span{border-left:1px solid var(--line);padding-left:18px}
 footer a{text-decoration:none}
 
 @media (max-width:1060px){
+  .sg-track{grid-auto-columns:calc((100% - 2*22px)/3)}
   .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 28px}
   .post{grid-template-columns:1fr}
   .post .body{padding:4px 8px 10px}
@@ -129,6 +151,8 @@ footer a{text-decoration:none}
   nav{gap:18px}
 }
 @media (max-width:600px){
+  .sg-track{grid-auto-columns:72%}
+  .sg-btn{display:none}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 18px}
   .posts{grid-template-columns:1fr}
   .feature{flex-direction:column;align-items:flex-start;gap:20px}
@@ -146,12 +170,13 @@ footer a{text-decoration:none}
 </head>
 <body>
 
-<div class="sunlit">
+<div class="sunlit" id="top">
   <header>
     <div class="wrap bar">
       <a class="logo" href="#top">artini</a>
       <nav aria-label="Ana menü">
         <a href="#sanatcilar">Sanatçılar</a>
+        <a href="#sergiler">Sergiler</a>
         <a href="#yazilar">Yazılar</a>
         <a href="#basvuru">Başvuru</a>
         <a class="igLink" href="#" target="_blank" rel="noopener">Instagram</a>
@@ -159,7 +184,7 @@ footer a{text-decoration:none}
     </div>
   </header>
 
-  <main id="top">
+  <main>
     <div class="wrap hero">
       <div>
         <h1>Seçilmiş eserler,<br>tanınmayı hak eden sanatçılar.</h1>
@@ -177,6 +202,20 @@ footer a{text-decoration:none}
       <div><h2>Sanatçılar</h2><p class="sub">Her biri kendi dilinde, kendi hikâyesiyle.</p></div>
     </div>
     <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="sergiler" class="split">
+  <div class="wrap">
+    <div class="head">
+      <div><h2 id="sgTitle">Kasım'da sergiler</h2><p class="sub">Bu ay görmeye değer bulduklarımız.</p></div>
+      <div class="sg-nav">
+        <button class="sg-btn" type="button" id="sgPrev" aria-label="Önceki sergiler">←</button>
+        <button class="sg-btn" type="button" id="sgNext" aria-label="Sonraki sergiler">→</button>
+        <a class="more-link" id="sgAll" href="sergiler/kasim-2026.html">Tümünü gör <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <ol class="sg-track" id="sgTrack" aria-labelledby="sgTitle"></ol>
   </div>
 </section>
 
@@ -246,6 +285,7 @@ footer a{text-decoration:none}
   </div>
 </footer>
 
+<script src="sergiler/kasim-2026.js"></script>
 <script>
 /* =================== BURADAN DÜZENLE =================== */
 const IG_HANDLE = "artini.io"; // Instagram kullanıcı adı
@@ -323,6 +363,27 @@ function render(){
   });
 }
 render();
+
+/* sergiler carousel: veriler sergiler/kasim-2026.js içinde */
+(function(){
+  const S=window.SERGILER, track=document.getElementById("sgTrack");
+  if(!S){document.getElementById("sergiler").hidden=true;return}
+  const pad=n=>String(n).padStart(2,"0");
+  track.innerHTML=S.liste.map((s,i)=>{
+    const n=i+1, art=s.gorsel
+      ? `<img class="sg-art" src="sergiler/${esc(s.gorsel)}" alt="" loading="lazy">`
+      : `<div class="sg-poster" style="--c1:${s.renk[0]};--c2:${s.renk[1]};--c3:${s.renk[2]}"><div class="pn">${pad(n)}</div><div class="pt">${esc(s.baslik)}</div></div>`;
+    return `<li class="sg-card"><a href="sergiler/kasim-2026.html#sergi-${n}">
+      <div class="frame ${s.gorsel?(s.cerceve||"light"):"black"} thin">${art}</div>
+      <div class="label"><div class="name"><span class="num">${pad(n)}</span>${esc(s.baslik)}</div><i>${esc(s.mekan)}</i>${esc(s.tarih)}</div></a></li>`;
+  }).join("");
+  const prev=document.getElementById("sgPrev"),next=document.getElementById("sgNext");
+  const step=()=>track.querySelector(".sg-card").getBoundingClientRect().width+22;
+  const sync=()=>{prev.disabled=track.scrollLeft<4;next.disabled=track.scrollLeft+track.clientWidth>=track.scrollWidth-4};
+  prev.onclick=()=>track.scrollBy({left:-step(),behavior:"smooth"});
+  next.onclick=()=>track.scrollBy({left:step(),behavior:"smooth"});
+  track.addEventListener("scroll",sync,{passive:true});addEventListener("resize",sync);sync();
+})();
 
 /* e-posta kopyala */
 document.getElementById("copyBtn").addEventListener("click",e=>{

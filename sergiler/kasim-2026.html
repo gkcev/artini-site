@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kasım 2026 sergileri · artini</title>
+<meta name="description" content="Kasım 2026'da İstanbul ve çevresinde görülmeye değer sergiler: tarihler, mekânlar ve kısa notlarla artini seçkisi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../yazilar/yazi.css">
+<link rel="stylesheet" href="sergiler.css">
+</head>
+<body>
+
+<div class="sunlit">
+  <header>
+    <div class="wrap bar">
+      <a class="logo" href="/">artini</a>
+      <nav aria-label="Ana menü">
+        <a href="/#sanatcilar">Sanatçılar</a>
+        <a href="/#sergiler" aria-current="page">Sergiler</a>
+        <a href="/#yazilar">Yazılar</a>
+        <a href="/basvuru.html">Başvuru</a>
+        <a href="https://www.instagram.com/artini.io/" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="intro">
+      <a class="kicker" href="/#sergiler">Sergiler</a>
+      <h1 id="title">Kasım'da ne görelim?</h1>
+      <p class="lede" id="lede"></p>
+      <div class="meta" id="meta"></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <ol class="list" id="list"></ol>
+  <p class="note">Tarihler ve saatler değişebilir; gitmeden önce mekânın kendi sayfasına bir göz at. Gözden kaçırdığımız bir sergi varsa <a href="mailto:info@artini.io" style="color:var(--blue)">info@artini.io</a> adresine yazabilirsin.</p>
+  <section class="refs" aria-labelledby="refsTitle">
+    <h2 id="refsTitle">Kaynaklar</h2>
+    <ol id="refs"></ol>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap row">
+    <a class="logo" href="/">artini</a>
+    <div class="links">
+      <span>info@artini.io</span>
+      <span><a href="https://www.instagram.com/artini.io/" target="_blank" rel="noopener">@artini.io</a></span>
+      <span>© 2026 artini. Tüm hakları saklıdır.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="kasim-2026.js"></script>
+<script>
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const S=window.SERGILER;
+document.getElementById("lede").textContent=S.giris;
+document.getElementById("meta").textContent=`${S.liste.length} sergi · ${S.guncelleme} itibarıyla`;
+
+/* kaynaklar tek listede toplanır; her sergi kendi numaralarına bağlanır */
+const refs=[];
+const refNo=k=>{let i=refs.findIndex(r=>r.url===k.url);if(i<0){refs.push(k);i=refs.length-1}return i+1};
+
+document.getElementById("list").innerHTML=S.liste.map((s,i)=>{
+  const n=i+1, nums=s.kaynak.map(refNo);
+  const art=s.gorsel
+    ? `<div class="frame ${s.cerceve||"light"}"><div class="mat"><img src="${esc(s.gorsel)}" alt="${esc(s.gorselAlt||s.baslik)}" loading="lazy"></div></div>${s.gorselKunye?`<div class="credit">${esc(s.gorselKunye)}</div>`:""}`
+    : `<div class="frame ${s.cerceve||"black"}"><div class="poster" style="--c1:${s.renk[0]};--c2:${s.renk[1]};--c3:${s.renk[2]}" aria-hidden="true"><div class="pn">${pad(n)}</div><div><div class="pt">${esc(s.baslik)}</div><div class="pv">${esc(s.mekan)}</div></div></div></div>`;
+  return `<li class="item" id="sergi-${n}">
+    <div>${art}</div>
+    <div>
+      <div class="no">${pad(n)}</div>
+      <h2>${esc(s.baslik)}</h2>
+      ${s.kim?`<p class="who">${esc(s.kim)}</p>`:""}
+      <dl class="facts"><dt>Mekân</dt><dd>${esc(s.mekan)}, ${esc(s.yer)}</dd><dt>Tarih</dt><dd>${esc(s.tarih)}</dd>${s.bilet?`<dt>Giriş</dt><dd>${esc(s.bilet)}</dd>`:""}</dl>
+      <p>${esc(s.aciklama)}</p>
+      <a class="ref" href="#kaynak-${nums[0]}">Kaynak ${nums.map(x=>`<sup>[${x}]</sup>`).join("")}</a>
+    </div>
+  </li>`;
+}).join("");
+
+document.getElementById("refs").innerHTML=refs.map((r,i)=>`<li id="kaynak-${i+1}">${esc(r.ad)}. <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url.replace(/^https?:\/\//,""))}</a>${r.erisim?` (erişim: ${esc(r.erisim)})`:""}</li>`).join("");
+</script>
+
+</body>
+</html>

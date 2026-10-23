@@ -1,0 +1,34 @@
+/* Sergi rehberi: yazi.css üstüne numaralı liste ve afiş kartları */
+.list{max-width:900px;margin:0 auto;padding-block:40px 20px;list-style:none;padding-left:0;counter-reset:none}
+.item{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:34px;align-items:start;padding-block:46px;border-top:1px solid var(--line);scroll-margin-top:20px}
+.item:first-child{border-top:0}
+.item .no{font-size:56px;line-height:1;color:var(--blue);letter-spacing:-.02em;margin-bottom:14px}
+.item h2{font-weight:400;font-size:clamp(26px,3vw,32px);line-height:1.2;letter-spacing:-.01em;margin:0 0 6px}
+.item .who{font-style:italic;color:var(--ink-soft);margin:0 0 16px;font-size:17px}
+.item p{margin:0 0 16px;font-size:18px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:15.5px;margin:0 0 16px;color:var(--ink)}
+.facts dt{color:var(--ink-soft)}
+.facts dd{margin:0}
+.ref{font-size:14.5px;color:var(--blue);text-decoration:none}
+.ref sup{font-size:11px}
+
+/* afiş: görsel yoksa sitenin paletinden bir kart */
+.poster{position:relative;aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;padding:22px;color:#fff;overflow:hidden;background:var(--c1,#1A47A6)}
+.poster::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 100% 0%,var(--c2,#7FA9C8) 0%,transparent 60%),radial-gradient(90% 70% at 0% 100%,var(--c3,#12367F) 0%,transparent 70%);opacity:.9}
+.poster > *{position:relative}
+.poster .pn{font-size:72px;line-height:.9;letter-spacing:-.03em}
+.poster .pt{font-size:24px;line-height:1.15;text-wrap:balance}
+.poster .pv{font-size:13.5px;opacity:.85;margin-top:8px}
+.credit{font-size:13px;color:var(--ink-soft);margin-top:12px}
+
+.refs{max-width:900px;margin:0 auto;padding-block:20px 60px;border-top:1px solid var(--line);font-size:15px;color:var(--ink-soft)}
+.refs h2{font-weight:400;font-size:28px;color:var(--ink);margin:30px 0 14px}
+.refs ol{padding-left:1.4em;margin:0}
+.refs li{margin-bottom:8px;scroll-margin-top:20px}
+.refs a{color:var(--blue);word-break:break-word}
+.note{max-width:900px;margin:0 auto 70px;background:var(--paper);border:1px solid var(--line);padding:18px 22px;font-size:15px;color:var(--ink-soft)}
+
+@media (max-width:760px){
+  .item{grid-template-columns:1fr;gap:22px}
+  .item .frame{max-width:380px}
+}
