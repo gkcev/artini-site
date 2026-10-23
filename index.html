@@ -88,7 +88,6 @@ h2{font-weight:400;font-size:clamp(36px,4.2vw,50px);line-height:1.05;letter-spac
 .label i{display:block;color:var(--ink-soft)}
 .handle{color:var(--blue);text-underline-offset:3px}
 .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);border:1px solid currentColor;border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:2px}
-.grid .label{min-height:9.5em}
 
 /* writing */
 .more-link{color:var(--blue);text-decoration:none;font-size:16px;white-space:nowrap}
@@ -255,18 +254,15 @@ const IG_HANDLE = "artini.io"; // Instagram kullanıcı adı
    gorsel: eser fotoğrafının dosya adı (ör. "eserler/selin.jpg"). Boşsa yer tutucu çizilir.
    gonderi: o eserin Instagram gönderi bağlantısı (isteğe bağlı).
    cerceve: "wood" | "black" | "gold" | "light"   ornek:true = yer tutucu kayıt */
-const HAFTANIN_ESERI = { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-6.jpg", renk:[], ornek:true };
+const HAFTANIN_ESERI = { ad:"Sarah Lim-Murray", eser:"", yil:"", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-6.jpg", renk:[] };
 
 const SANATCILAR = [
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-1.jpg", gonderi:"", cerceve:"wood",  renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-2.jpg", gonderi:"", cerceve:"light", renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-3.jpg", gonderi:"", cerceve:"black", renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-4.jpg", gonderi:"", cerceve:"gold",  renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Suluboya", teknik:"Suluboya kâğıt üzerine", olcu:"", ig:"", gorsel:"eserler/eser-5.jpg", gonderi:"", cerceve:"light", renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-7.jpg", gonderi:"", cerceve:"gold",   renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-8.jpg", gonderi:"", cerceve:"light", renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-9.jpg", gonderi:"", cerceve:"wood",   renk:[], ornek:true },
-  { ad:"Sanatçı Adı", eser:"Eser Adı", yil:2024, tur:"Yağlı boya", teknik:"Yağlı boya tuval üzerine", olcu:"", ig:"", gorsel:"eserler/eser-10.jpg", gonderi:"", cerceve:"black", renk:[], ornek:true },
+  { ad:"Murat Tolga", eser:"", yil:"", tur:"Yağlı boya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-1.jpg", gonderi:"", cerceve:"wood", renk:[] },
+  { ad:"Elifko", eser:"", yil:"", tur:"Yağlı boya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-2.jpg", gonderi:"", cerceve:"light", renk:[] },
+  { ad:"Seldem Kargı", eser:"", yil:"", tur:"Yağlı boya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-3.jpg", gonderi:"", cerceve:"black", renk:[] },
+  { ad:"Tuna Ozkaragoz", eser:"", yil:"", tur:"Yağlı boya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-4.jpg", gonderi:"", cerceve:"gold", renk:[] },
+  { ad:"Rukiye Garip", eser:"", yil:"", tur:"Suluboya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-5.jpg", gonderi:"", cerceve:"light", renk:[] },
+  { ad:"Selman Birifkani", eser:"", yil:"", tur:"Yağlı boya", teknik:"", olcu:"", ig:"", gorsel:"eserler/eser-7.jpg", gonderi:"", cerceve:"gold", renk:[] },
 ];
 /* ======================================================= */
 
@@ -297,6 +293,8 @@ function artHTML(a,ar,id){
     ? `<img class="art" style="--ar:${ar}" src="${esc(a.gorsel)}" alt="${esc(a.ad)}, ${esc(a.eser)}" loading="lazy">`
     : `<canvas class="art" id="${id}" style="--ar:${ar}" width="${Math.round(eval(ar)*400)}" height="400" aria-label="${esc(a.eser)} (yer tutucu)"></canvas>`;
 }
+/* künye satırları: boş alanlar gösterilmez */
+function kunye(a){ return (a.eser?`<i>${esc(a.eser)}</i>`:"")+[a.yil,a.teknik,a.olcu].filter(Boolean).map(esc).join("<br>"); }
 function handle(a){ return a.ig ? `<a class="handle" href="https://www.instagram.com/${esc(a.ig)}/" target="_blank" rel="noopener">@${esc(a.ig)}</a>` : `<span class="handle">@kullaniciadi</span>`; }
 
 /* haftanın eseri */
@@ -305,7 +303,7 @@ function handle(a){ return a.ig ? `<a class="handle" href="https://www.instagram
   f.innerHTML=`<div class="frame">${'<div class="mat">'+artHTML(a,"3/4","heroArt")+'</div>'}</div>
     <div class="flabel"><div class="kicker">Haftanın eseri</div>
       <div style="color:var(--ink);font-size:18px">${esc(a.ad)}${a.ornek?'<span class="tag">örnek</span>':''}</div>
-      <i style="display:block;margin-bottom:10px">${esc(a.eser)}</i>${a.yil}<br>${esc(a.teknik)}<br>${esc(a.olcu)}<div style="margin-top:14px">${handle(a)}</div></div>`;
+      ${a.eser?`<i style="display:block;margin-bottom:10px">${esc(a.eser)}</i>`:''}${[a.yil,a.teknik,a.olcu].filter(Boolean).map(esc).join("<br>")}${a.ig?`<div style="margin-top:14px">${handle(a)}</div>`:''}</div>`;
   if(!a.gorsel) paint(document.getElementById("heroArt"),a.renk,5);
 })();
 
@@ -319,7 +317,7 @@ function render(){
     const art=artHTML(a,"3/4",id);
     const inner=a.gonderi?`<a href="${esc(a.gonderi)}" target="_blank" rel="noopener" aria-label="${esc(a.eser)} Instagram gönderisi">${art}</a>`:art;
     el.innerHTML=`<div class="frame ${a.cerceve} thin"><div class="mat${a.nomat?' nomat':''}">${inner}</div></div>
-      <figcaption class="label"><div class="name">${esc(a.ad)}${a.ornek?'<span class="tag">örnek</span>':''}</div><i>${esc(a.eser)}</i>${a.yil}<br>${esc(a.teknik)}<br>${esc(a.olcu)}<div style="margin-top:6px">${handle(a)}</div></figcaption>`;
+      <figcaption class="label"><div class="name">${esc(a.ad)}${a.ornek?'<span class="tag">örnek</span>':''}</div>${kunye(a)}${a.ig?`<div style="margin-top:6px">${handle(a)}</div>`:''}</figcaption>`;
     grid.appendChild(el);
     if(!a.gorsel) paint(document.getElementById(id),a.renk,i+3);
   });
