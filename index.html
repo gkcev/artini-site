@@ -94,7 +94,7 @@ h2{font-weight:400;font-size:clamp(36px,4.2vw,50px);line-height:1.05;letter-spac
 .more-link{color:var(--blue);text-decoration:none;font-size:16px;white-space:nowrap}
 .posts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .post{display:grid;grid-template-columns:44% 1fr;gap:26px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:12px;min-width:0}
-.post canvas{display:block;width:100%;height:auto;aspect-ratio:6/5}
+.post img{display:block;width:100%;height:auto;aspect-ratio:6/5;object-fit:cover;object-position:center 30%}
 .post h3{font-weight:400;font-size:24px;margin:0 0 10px}
 .post p{font-size:15.5px;color:var(--ink-soft);margin:0 0 18px}
 .post .body{min-width:0;padding-right:10px}
@@ -185,23 +185,22 @@ footer a{text-decoration:none}
   <div class="wrap">
     <div class="head">
       <div><h2>Yazılar</h2><p class="sub">Sanat tarihine ve görme biçimlerimize kısa, okunur girişler.</p></div>
-      <a class="more-link" href="https://artini.io/blog/" target="_blank" rel="noopener">Tüm yazılar <span class="arrow">→</span></a>
     </div>
     <div class="posts">
       <article class="post">
-        <canvas id="p1" width="480" height="400" aria-label="Rönesans yazısı görseli"></canvas>
+        <a href="yazilar/cagdas-sanat-nedir.html" tabindex="-1" aria-hidden="true"><img src="yazilar/gorseller/duchamp-cesme.jpg" alt="" loading="lazy"></a>
         <div class="body">
-          <h3>Rönesans</h3>
-          <p>Yeniden doğuş fikrinin resmi, perspektifi ve insan anlayışını nasıl dönüştürdüğüne kısa bir giriş.</p>
-          <a class="more-link" href="https://artini.io/anrinin-gogunden-insanin-merkezine-ronesansin-yolculugu/" target="_blank" rel="noopener">Yazıyı oku <span class="arrow">→</span></a>
+          <h3>Çağdaş sanat nedir?</h3>
+          <p>Duchamp'ın pisuvarından bugünün resmine: bizim zamanımızın sanatına bakmanın kısa bir rehberi.</p>
+          <a class="more-link" href="yazilar/cagdas-sanat-nedir.html">Yazıyı oku <span class="arrow">→</span></a>
         </div>
       </article>
       <article class="post">
-        <canvas id="p2" width="480" height="400" aria-label="Maniyerizm yazısı görseli"></canvas>
+        <a href="yazilar/yapay-zeka-ve-sanat.html" tabindex="-1" aria-hidden="true"><img src="yazilar/gorseller/edmond-de-belamy.jpg" alt="" loading="lazy"></a>
         <div class="body">
-          <h3>Maniyerizm</h3>
-          <p>Dengenin bozulduğu, biçimin uzadığı ve ifadenin cesurlaştığı döneme yakından bakış.</p>
-          <a class="more-link" href="https://artini.io/maniyerizm-kusursuzlugun-golgesinde-dogan-huzursuzluk/" target="_blank" rel="noopener">Yazıyı oku <span class="arrow">→</span></a>
+          <h3>Yapay zekâ ve sanat</h3>
+          <p>Bir açık artırma rekoru, bir fuar ödülü ve bitmeyen bir tartışma: fırça kimin elinde?</p>
+          <a class="more-link" href="yazilar/yapay-zeka-ve-sanat.html">Yazıyı oku <span class="arrow">→</span></a>
         </div>
       </article>
     </div>
@@ -326,10 +325,6 @@ function render(){
   });
 }
 render();
-
-/* yazı görselleri (yer tutucu) */
-paint(document.getElementById("p1"),["#C88A4A","#E2B98C","#8C5A34","#D9A066"],11,"#F3E6D3");
-paint(document.getElementById("p2"),["#6B6862","#A39E95","#3F3D3A"],19,"#E7E3DC");
 
 /* e-posta kopyala */
 document.getElementById("copyBtn").addEventListener("click",e=>{

@@ -6,6 +6,7 @@ artini, sanatçıları ve eserlerini tanıtan bir Instagram hesabı (@artini.io)
 - Ana sayfa: `index.html` (HTML + CSS + JS bir arada). Build adımı yok.
 - `basvuru.html`: sanatçı başvuru formu (Netlify Forms, form adı `sanatci-basvurusu`, görsel yükleme toplam 8 MB). Gönderim sonrası `tesekkurler.html` açılır. Başvurular Netlify panelinde Forms altında görünür.
 - Netlify, `main` dalına her push'ta siteyi otomatik yayınlar. Alan adı: artini.io (DNS Hostinger'da).
+- Yazılar: `yazilar/*.html`, ortak stil `yazilar/yazi.css`, yazı görselleri `yazilar/gorseller/`. Ana sayfadaki Yazılar kartları bu sayfalara bağlanır; yeni yazıda kartı da ekle. Dış kaynaklı görsellerde yalnızca kamu malı ya da serbest lisanslı görsel kullan ve kaynağı yazının sonunda belirt.
 - Görseller eklenecekse `eserler/` klasörüne konur, `index.html` içinden göreli yolla çağrılır (ör. `eserler/ada-demir.jpg`).
 
 ## İçerik nasıl düzenlenir

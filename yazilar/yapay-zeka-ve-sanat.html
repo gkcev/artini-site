@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yapay zekâ ve sanat · artini</title>
+<meta name="description" content="Bir açık artırma rekoru, bir eyalet fuarı ödülü ve bitmeyen bir tartışma: yapay zekâ sanatı nasıl değiştiriyor, sanatçıya ne kalıyor?">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<link rel="stylesheet" href="yazi.css">
+<style>
+.gen{display:block;width:100%;height:auto;aspect-ratio:4/5;background:#EFE9DF}
+.redraw{font:400 14px var(--serif);background:transparent;border:1px solid var(--line);color:var(--blue);padding:3px 11px;border-radius:3px;cursor:pointer;margin-top:10px}
+.redraw:hover{border-color:var(--blue)}
+</style>
+</head>
+<body>
+
+<div class="sunlit">
+  <header>
+    <div class="wrap bar">
+      <a class="logo" href="/">artini</a>
+      <nav aria-label="Ana menü">
+        <a href="/#sanatcilar">Sanatçılar</a>
+        <a href="/#yazilar" aria-current="page">Yazılar</a>
+        <a href="/basvuru.html">Başvuru</a>
+        <a href="https://www.instagram.com/artini.io/" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="intro">
+      <a class="kicker" href="/#yazilar">Yazılar</a>
+      <h1>Yapay zekâ ve sanat: Fırça kimin elinde?</h1>
+      <p class="lede">Birkaç kelime yazıyorsun, saniyeler içinde bir “tablo” beliriyor. Heyecan verici mi, ürkütücü mü? Belki ikisi birden. Gelin, tartışmanın nereden geldiğine ve nereye gidebileceğine birlikte bakalım.</p>
+      <div class="meta">7 dakikalık okuma</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<article class="text">
+
+  <h2>Bir açık artırma, bir şaşkınlık</h2>
+  <p>Ekim 2018'de Christie's New York'ta, bulanık hatlı, yarım kalmış gibi görünen bir portre satışa çıktı. Tahmini değeri 7.000–10.000 dolardı; çekiç <strong>432.500 dolarda</strong> indi. Tabloyu yapan bir ressam değil, Paris'teki <em>Obvious</em> kolektifinin eğittiği bir yapay zekâ modeliydi. Sağ alt köşede imza yerine bir matematik formülü vardı.</p>
+
+  <figure class="narrow">
+    <div class="frame gold"><div class="mat"><img src="gorseller/edmond-de-belamy.jpg" alt="Koyu giysili bir adamın bulanık, yarım kalmış gibi görünen portresi; sağ altta imza yerine bir formül" loading="lazy" width="1096" height="1100"></div></div>
+    <figcaption><div class="name">Obvious kolektifi</div><i>Edmond de Belamy</i>2018 · Tuval üzerine baskı, GAN ile üretildi<br>Kamu malı, Wikimedia Commons</figcaption>
+  </figure>
+
+  <p><em>Edmond de Belamy</em> teknik olarak çığır açan bir iş değildi; benzer yöntemler başka sanatçılar tarafından zaten kullanılıyordu. Ama bir soruyu herkesin gündemine taşıdı: <strong>Bir makine sanat yapabilir mi, yapıyorsa eserin sahibi kim?</strong></p>
+
+  <h2>Makineyle sanat aslında yeni değil</h2>
+  <p>Bilgisayar ve sanatın buluşması 1960'lara kadar gidiyor. Georg Nees, Frieder Nake ve Vera Molnár gibi öncüler, kurallar yazıp çizimi bir çizim makinesine (plotter) bırakarak ilk “bilgisayar sanatı” sergilerini açtılar. Ressam Harold Cohen ise 1970'lerden başlayarak onlarca yıl boyunca <em>AARON</em> adını verdiği, kendi kendine resim yapan bir program geliştirdi.</p>
+  <p>Bu sanatçıların derdi makineyi ressamın yerine koymak değildi. Kuralı onlar koyuyor, sonucu makinenin “şansına” bırakıyor ve ortaya çıkan sürprizle ilgileniyorlardı. Aşağıdaki görsel de bu fikrin küçük bir örneği.</p>
+
+  <figure class="narrow">
+    <div class="frame light"><div class="mat"><canvas class="gen" id="gen" width="800" height="1000" aria-label="Kodla çizilmiş akan çizgilerden oluşan soyut görsel"></canvas></div></div>
+    <figcaption><div class="name">artini için kodla çizildi</div><i>Akış</i>Birkaç satır kural, her açılışta yeni bir sonuç. Yapay zekâ değil; ama bir kararı makineye bırakmanın nasıl bir şey olduğunu gösteriyor.<br><button class="redraw" type="button" id="redraw">Yeniden çiz</button></figcaption>
+  </figure>
+
+  <h2>Bugünkü araçlar nasıl çalışıyor?</h2>
+  <p>Teknik ayrıntıya boğulmadan iki temel yaklaşımı bilmek yeterli:</p>
+  <ul>
+    <li><strong>GAN (çekişmeli üretici ağlar):</strong> Biri görsel üreten, diğeri bu görselin gerçek mi sahte mi olduğunu ayırt etmeye çalışan iki ağ birbirini sürekli sınar. <em>Edmond de Belamy</em> bu yöntemle, binlerce eski portre üzerinde eğitilen bir modelle üretildi.</li>
+    <li><strong>Difüzyon modelleri:</strong> Model, rastgele bir gürültü yığınından başlayıp onu adım adım “temizleyerek”, yazdığın metne uyan bir görsele dönüştürür. 2022'de yaygınlaşan DALL·E 2, Midjourney ve Stable Diffusion bu türden.</li>
+  </ul>
+  <p>İkisinin ortak noktası şu: Modeller, insanların yaptığı milyonlarca görsele bakarak “öğreniyor”. Tartışmanın büyük kısmı da tam buradan çıkıyor.</p>
+
+  <h2>Tartışma neden bu kadar hararetli?</h2>
+  <p>2022 yazında ABD'deki Colorado Eyalet Fuarı'nın dijital sanat yarışmasında birinciliği, Jason M. Allen'ın Midjourney ile ürettiği <em>Théâtre D'opéra Spatial</em> kazandı. Kurallara aykırı bir şey yoktu, ama tepki büyüktü. Sanatçıların itirazları genelde üç başlıkta toplanıyor:</p>
+  <ul>
+    <li><strong>İzin ve emek:</strong> Modeller, sanatçıların izni alınmadan internetten toplanan eserlerle eğitildi. Bu yüzden ABD ve İngiltere'de yapay zekâ şirketlerine karşı açılmış davalar sürüyor.</li>
+    <li><strong>Üslup taklidi:</strong> Bir sanatçının adını yazmak, onun yıllar içinde oluşturduğu üslubu saniyeler içinde taklit etmeye yetebiliyor.</li>
+    <li><strong>Sahiplik:</strong> ABD Telif Hakkı Ofisi, tamamen yapay zekâ tarafından üretilen görselleri telif koruması kapsamında görmüyor; yalnızca insanın katkısı olan kısımlar korunabiliyor. Türk hukukunda da eser sahipliği insanı esas alıyor ve konu hâlâ tartışılıyor.</li>
+  </ul>
+
+  <blockquote>Asıl soru belki “Makine sanat yapabilir mi?” değil, “Biz neye sanat diyoruz?”</blockquote>
+
+  <h2>Fotoğraf makinesi de bir zamanlar tehditti</h2>
+  <p>19. yüzyılda fotoğraf ortaya çıktığında, Fransız ressam Paul Delaroche'a “Bugünden itibaren resim öldü” dediği atfedilir. Resim ölmedi; ama değişti. Gerçeği birebir kopyalama yükünden kurtulan ressamlar ışığa, renge, duyguya yöneldi ve modern sanatın yolu açıldı. Fotoğraf da zamanla kendi başına bir sanat dalı oldu.</p>
+  <p>Yapay zekâ için de benzer bir şey yaşanıyor olabilir. Bazı sanatçılar onu bir eskiz defteri, bir fikir ortağı gibi kullanıyor; bazıları tamamen uzak duruyor; bazıları da işini bu teknolojiyi eleştirmek üzerine kuruyor. Hepsi meşru tavırlar.</p>
+
+  <h2>Peki bir eserin karşısında neye bakmalı?</h2>
+  <p>Bir işin nasıl üretildiğinden çok, şu sorular belirleyici olabilir:</p>
+  <ul>
+    <li><strong>Niyet:</strong> Sanatçı ne söylemek istiyor ve bunu söylemek için neden bu aracı seçmiş?</li>
+    <li><strong>Seçim:</strong> Yüzlerce olasılık arasından neyi neden bırakmış, neyi atmış?</li>
+    <li><strong>Şeffaflık:</strong> Hangi araçların kullanıldığı açıkça söyleniyor mu?</li>
+    <li><strong>İz:</strong> Eserde, onu yapan kişiye dair bir şey hissediyor musun?</li>
+  </ul>
+  <p>Bir ressamın aylarca üzerinde çalıştığı bir tuvalin önünde durduğumuzda hissettiğimiz o tuhaf yakınlık, bir insanın dünyaya bakışıyla karşılaşmaktan geliyor. Araçlar ne kadar değişirse değişsin, o karşılaşmanın değeri yerinde duruyor. artini'de görmek istediğimiz de tam olarak bu: eserin arkasındaki insan.</p>
+
+</article>
+
+<div class="sources">
+  <h3>Görseller</h3>
+  <ul>
+    <li>Obvious, <i>Edmond de Belamy</i> (2018). Kamu malı, Wikimedia Commons.</li>
+    <li><i>Akış</i>: Bu sayfa için tarayıcında, kodla çizilir.</li>
+  </ul>
+</div>
+
+<div class="next">
+  <span>Önceki yazı</span>
+  <a href="cagdas-sanat-nedir.html">Çağdaş sanat nedir? <span class="arrow">→</span></a>
+</div>
+</div>
+
+<footer>
+  <div class="wrap row">
+    <a class="logo" href="/">artini</a>
+    <div class="links">
+      <span>info@artini.io</span>
+      <span><a href="https://www.instagram.com/artini.io/" target="_blank" rel="noopener">@artini.io</a></span>
+      <span>© 2026 artini. Tüm hakları saklıdır.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Akış: rastgele bir tohumla akış alanı boyunca çizgiler; renkler sitenin paletinden */
+const cv=document.getElementById("gen"),g=cv.getContext("2d");
+function draw(seed){
+  let s=seed>>>0;const r=()=>(s=(s*1664525+1013904223)>>>0)/4294967296;
+  const W=cv.width,H=cv.height,pal=["#1A47A6","#1A47A6","#C98E5A","#5E6B5A","#1E1D1B","#B9A27C"];
+  g.fillStyle="#F2EEE6";g.fillRect(0,0,W,H);
+  const a=r()*3+1,b=r()*3+1,ph=r()*6.28,sc=.0016+r()*.0024;
+  const field=(x,y)=>Math.sin(x*sc*a+ph)*2+Math.cos(y*sc*b-ph)*2+Math.sin((x+y)*sc*.7);
+  g.lineCap="round";
+  for(let i=0;i<900;i++){
+    let x=r()*W,y=r()*H;
+    g.strokeStyle=pal[Math.floor(r()*pal.length)];g.globalAlpha=.18+r()*.5;g.lineWidth=.6+r()*2.4;
+    g.beginPath();g.moveTo(x,y);
+    for(let k=0,n=40+r()*120;k<n;k++){const t=field(x,y);x+=Math.cos(t)*3;y+=Math.sin(t)*3;if(x<0||x>W||y<0||y>H)break;g.lineTo(x,y)}
+    g.stroke();
+  }
+  g.globalAlpha=1;
+}
+draw(Date.now());
+document.getElementById("redraw").addEventListener("click",()=>draw(Date.now()));
+</script>
+
+</body>
+</html>
