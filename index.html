@@ -79,10 +79,6 @@ section{padding-block:70px}
 h2{font-weight:400;font-size:clamp(36px,4.2vw,50px);line-height:1.05;letter-spacing:-.015em;margin:0 0 8px}
 .sub{margin:0;color:var(--ink-soft)}
 
-.filters{display:flex;gap:8px;flex-wrap:wrap}
-.chip{font:400 14px var(--serif);background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:7px 16px;border-radius:9px;cursor:pointer}
-.chip:hover{border-color:var(--ink-soft)}
-.chip[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
 
 .grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:30px 22px;align-items:end}
 .work{margin:0;min-width:0;display:flex;flex-direction:column}
@@ -180,7 +176,6 @@ footer a{text-decoration:none}
   <div class="wrap">
     <div class="head">
       <div><h2>Sanatçılar</h2><p class="sub">Yeni keşifler ve köklü isimler, eserleriyle birlikte burada.</p></div>
-      <div class="filters" role="group" aria-label="Tekniğe göre süz" id="filters"></div>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -223,7 +218,7 @@ footer a{text-decoration:none}
         <li class="dash" aria-hidden="true"></li>
         <li class="step"><div class="num">2</div><div><strong>Bilgilerini ekle</strong><span>Ad, kısa bio, teknik ve Instagram hesabını belirt.</span></div></li>
         <li class="dash" aria-hidden="true"></li>
-        <li class="step"><div class="num">3</div><div><strong>Gönder</strong><span>Başvurunu e-posta ya da Instagram DM ile ilet.</span></div></li>
+        <li class="step"><div class="num">3</div><div><strong>Gönder</strong><span>Başvuru formunu doldur; istersen e-posta ya da Instagram DM ile de iletebilirsin.</span></div></li>
       </ol>
       <div class="contact">
         <div class="item">
@@ -237,7 +232,7 @@ footer a{text-decoration:none}
           <span>Instagram DM: <a class="igLink igHandle" href="#" target="_blank" rel="noopener"></a></span>
         </div>
       </div>
-      <a class="btn igDm" href="#" target="_blank" rel="noopener">Başvuru için iletişime geç <span class="arrow">→</span></a>
+      <a class="btn" href="basvuru.html">Başvuru formunu doldur <span class="arrow">→</span></a>
     </div>
   </section>
 </div>
@@ -316,13 +311,10 @@ function handle(a){ return a.ig ? `<a class="handle" href="https://www.instagram
 })();
 
 /* sanatçılar */
-const grid=document.getElementById("grid"),filters=document.getElementById("filters");
-const kinds=["Tümü","Suluboya","Yağlı boya","Fotoğraf","Karakalem","Dijital"];
-let active="Tümü";
+const grid=document.getElementById("grid");
 function render(){
   grid.innerHTML="";
   SANATCILAR.forEach((a,i)=>{
-    if(active!=="Tümü"&&a.tur!==active)return;
     const id="w"+i, el=document.createElement("figure");
     el.className="work";
     const art=artHTML(a,"3/4",id);
@@ -332,14 +324,7 @@ function render(){
     grid.appendChild(el);
     if(!a.gorsel) paint(document.getElementById(id),a.renk,i+3);
   });
-  if(!grid.children.length) grid.innerHTML=`<p class="sub" style="grid-column:1/-1">Bu teknikte henüz eser yok.</p>`;
 }
-kinds.forEach(k=>{
-  const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=k;b.id="f-"+k.replace(/\s/g,"");
-  b.setAttribute("aria-pressed",String(k===active));
-  b.onclick=()=>{active=k;filters.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(c===b)));render()};
-  filters.appendChild(b);
-});
 render();
 
 /* yazı görselleri (yer tutucu) */
