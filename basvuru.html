@@ -74,6 +74,11 @@ input[type=file]::file-selector-button{font:400 15px var(--serif);background:var
 .alt{font-size:15px;color:var(--ink-soft)}
 .alt a{color:var(--blue);text-decoration:none}
 .hp{position:absolute;left:-9999px}
+/* geçici: Netlify form algılama açılana kadar başvurular e-postayla */
+.notice{border:1px solid var(--blue);background:#EEF2FA;color:var(--ink);padding:16px 20px;font-size:15.5px;line-height:1.55;margin:0 0 30px;border-radius:2px}
+.notice strong{font-weight:500;color:var(--blue)}
+.notice a{color:var(--blue)}
+.actions .notice{flex-basis:100%;margin:0}
 
 footer .row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:34px 44px;border-top:1px solid var(--line)}
 footer .logo{font-size:38px}
@@ -116,6 +121,8 @@ footer a{text-decoration:none}
       <input type="hidden" name="form-name" value="sanatci-basvurusu">
       <p class="hp"><label>Bu alanı boş bırak <input name="adres" tabindex="-1" autocomplete="off"></label></p>
 
+      <!-- GEÇİCİ UYARI: Netlify'da form algılama açılınca bu iki .notice bloğunu ve GECICI_EPOSTA satırını kaldır -->
+      <p class="notice" data-gecici><strong>Kısa bir not:</strong> Formumuz şu an bakımda. Formu doldurup “E-postayla gönder”e bastığında bilgilerin e-posta uygulamanda hazır açılacak; eser görsellerini e-postaya ekleyip <a href="mailto:info@artini.io">info@artini.io</a> adresine göndermen yeterli.</p>
       <fieldset>
         <legend>Seni tanıyalım</legend>
         <p class="hint">Künyende görünecek bilgiler.</p>
@@ -163,6 +170,7 @@ footer a{text-decoration:none}
       </fieldset>
 
       <div class="actions">
+        <p class="notice" data-gecici>Form bakımda olduğu için başvurun e-postayla iletilecek. Açılan e-postaya <strong>eser görsellerini eklemeyi unutma</strong>; e-posta uygulaman açılmazsa bilgilerini ve görsellerini doğrudan <a href="mailto:info@artini.io">info@artini.io</a> adresine yazabilirsin.</p>
         <button class="btn" type="submit" id="send">Başvuruyu gönder <span class="arrow">→</span></button>
         <span class="alt">Form yerine yazmak istersen: <a href="mailto:info@artini.io">info@artini.io</a></span>
       </div>
@@ -193,6 +201,24 @@ function checkFiles(){
   return !msg;
 }
 files.addEventListener("change",checkFiles);
+/* geçici: form algılama açılana kadar gönderim e-postaya yönlenir; açılınca false yap ya da satırı ve uyarıları sil */
+const GECICI_EPOSTA=true;
+if(GECICI_EPOSTA){
+  document.getElementById("send").firstChild.textContent="E-postayla gönder ";
+  files.required=false;
+  document.querySelector(".drop").hidden=true;  /* görseller e-postaya eklenecek */
+  form.addEventListener("submit",e=>{
+    e.preventDefault();e.stopImmediatePropagation();
+    if(!form.reportValidity())return;
+    const v=n=>(form.elements[n]?.value||"").trim();
+    const body=[
+      "Ad soyad: "+v("ad"),"E-posta: "+v("eposta"),"Instagram: "+v("instagram"),"Şehir: "+v("sehir"),
+      "Teknik: "+v("teknik"),"Portfolyo: "+v("portfolyo"),"","Kısa bio:",v("bio"),"","Eser künyeleri:",v("kunyeler"),"",
+      "Eser paylaşım izni: evet","Kişisel veri onayı: evet","","(Eser görsellerini bu e-postaya ekle.)"
+    ].join("\n");
+    location.href="mailto:info@artini.io?subject="+encodeURIComponent("Sanatçı başvurusu: "+v("ad"))+"&body="+encodeURIComponent(body);
+  },true);
+}
 form.addEventListener("submit",e=>{
   if(!checkFiles()){e.preventDefault();files.reportValidity();return}
   const b=document.getElementById("send");b.disabled=true;b.firstChild.textContent="Gönderiliyor… ";
