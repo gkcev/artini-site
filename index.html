@@ -208,11 +208,11 @@ footer a{text-decoration:none}
 <section id="sergiler" class="split">
   <div class="wrap">
     <div class="head">
-      <div><h2 id="sgTitle">Kasım'da sergiler</h2><p class="sub">Bu ay görmeye değer bulduklarımız.</p></div>
+      <div><h2 id="sgTitle">Aralık'ta sergiler</h2><p class="sub">Bu ay görmeye değer bulduklarımız.</p></div>
       <div class="sg-nav">
         <button class="sg-btn" type="button" id="sgPrev" aria-label="Önceki sergiler">←</button>
         <button class="sg-btn" type="button" id="sgNext" aria-label="Sonraki sergiler">→</button>
-        <a class="more-link" id="sgAll" href="sergiler/kasim-2026.html">Tümünü gör <span class="arrow">→</span></a>
+        <a class="more-link" id="sgAll" href="sergiler/aralik-2026.html">Tümünü gör <span class="arrow">→</span></a>
       </div>
     </div>
     <ol class="sg-track" id="sgTrack" aria-labelledby="sgTitle"></ol>
@@ -293,7 +293,7 @@ footer a{text-decoration:none}
   </div>
 </footer>
 
-<script src="sergiler/kasim-2026.js"></script>
+<script src="sergiler/aralik-2026.js"></script>
 <script>
 /* =================== BURADAN DÜZENLE =================== */
 const IG_HANDLE = "artini.io"; // Instagram kullanıcı adı
@@ -372,7 +372,7 @@ function render(){
 }
 render();
 
-/* sergiler carousel: veriler sergiler/kasim-2026.js içinde */
+/* sergiler carousel: veriler sergiler/aralik-2026.js içinde */
 (function(){
   const S=window.SERGILER, track=document.getElementById("sgTrack");
   if(!S){document.getElementById("sergiler").hidden=true;return}
@@ -381,7 +381,7 @@ render();
     const n=i+1, art=s.gorsel
       ? `<img class="sg-art" src="sergiler/${esc(s.gorsel)}" alt="" loading="lazy">`
       : `<div class="sg-poster" style="--c1:${s.renk[0]};--c2:${s.renk[1]};--c3:${s.renk[2]}"><div class="pn">${pad(n)}</div><div class="pt">${esc(s.baslik)}</div></div>`;
-    return `<li class="sg-card"><a href="sergiler/kasim-2026.html#sergi-${n}">
+    return `<li class="sg-card"><a href="sergiler/aralik-2026.html#sergi-${n}">
       <div class="frame ${s.gorsel?(s.cerceve||"light"):"black"} thin">${art}</div>
       <div class="label"><div class="name"><span class="num">${pad(n)}</span>${esc(s.baslik)}</div><i>${esc(s.mekan)}</i>${esc(s.tarih)}</div></a></li>`;
   }).join("");
