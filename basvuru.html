@@ -113,7 +113,7 @@ footer a{text-decoration:none}
   <div class="wrap">
     <div class="intro">
       <h1>Sanatçı başvurusu</h1>
-      <p class="lede">Eserlerini artini'de görmek isteriz. Formu doldur, birkaç işini ekle; her başvuruya tek tek bakıp sana e-postayla dönüyoruz.</p>
+      <p class="lede">Eserlerini artini'de görmek isteriz. Formu doldur, birkaç işini paylaş; her başvuruya tek tek bakıp sana e-postayla dönüyoruz.</p>
     </div>
 
     <form class="sheet" name="sanatci-basvurusu" method="POST" action="/tesekkurler.html"
@@ -122,7 +122,7 @@ footer a{text-decoration:none}
       <p class="hp"><label>Bu alanı boş bırak <input name="adres" tabindex="-1" autocomplete="off"></label></p>
 
       <!-- GEÇİCİ UYARI: Netlify'da form algılama açılınca bu iki .notice bloğunu ve GECICI_EPOSTA satırını kaldır -->
-      <p class="notice" data-gecici><strong>Kısa bir not:</strong> Formumuz şu an bakımda. Formu doldurup “E-postayla gönder”e bastığında bilgilerin e-posta uygulamanda hazır açılacak; eser görsellerini e-postaya ekleyip <a href="mailto:info@artini.io">info@artini.io</a> adresine göndermen yeterli.</p>
+      <p class="notice" data-gecici><strong>Kısa bir not:</strong> Formumuz şu an bakımda. Formu doldurup “E-postayla gönder”e bastığında bilgilerin e-posta uygulamanda hazır açılacak. <strong>Görselleri e-postaya ekleme</strong>; eserlerini Google Drive, WeTransfer, Instagram ya da portfolyo bağlantısıyla paylaşman yeterli.</p>
       <fieldset>
         <legend>Seni tanıyalım</legend>
         <p class="hint">Künyende görünecek bilgiler.</p>
@@ -170,7 +170,7 @@ footer a{text-decoration:none}
       </fieldset>
 
       <div class="actions">
-        <p class="notice" data-gecici>Form bakımda olduğu için başvurun e-postayla iletilecek. Açılan e-postaya <strong>eser görsellerini eklemeyi unutma</strong>; e-posta uygulaman açılmazsa bilgilerini ve görsellerini doğrudan <a href="mailto:info@artini.io">info@artini.io</a> adresine yazabilirsin.</p>
+        <p class="notice" data-gecici>Form bakımda olduğu için başvurun e-postayla iletilecek. Eserlerini yukarıdaki bağlantıdan göreceğiz; <strong>e-postaya dosya ekleme</strong>. E-posta uygulaman açılmazsa bilgilerini ve bağlantını doğrudan <a href="mailto:info@artini.io">info@artini.io</a> adresine yazabilirsin.</p>
         <button class="btn" type="submit" id="send">Başvuruyu gönder <span class="arrow">→</span></button>
         <span class="alt">Form yerine yazmak istersen: <a href="mailto:info@artini.io">info@artini.io</a></span>
       </div>
@@ -206,15 +206,19 @@ const GECICI_EPOSTA=true;
 if(GECICI_EPOSTA){
   document.getElementById("send").firstChild.textContent="E-postayla gönder ";
   files.required=false;
-  document.querySelector(".drop").hidden=true;  /* görseller e-postaya eklenecek */
+  document.querySelector(".drop").hidden=true;  /* posta kutusu dolmasın: görseller ek değil bağlantı olarak gelir */
+  const link=document.getElementById("site");
+  link.required=true;
+  link.closest("div").querySelector("label").innerHTML='Eserlerinin bağlantısı <span class="opt">(Google Drive, WeTransfer, Instagram ya da portfolyo)</span>';
+  link.placeholder="https://drive.google.com/…";
   form.addEventListener("submit",e=>{
     e.preventDefault();e.stopImmediatePropagation();
     if(!form.reportValidity())return;
     const v=n=>(form.elements[n]?.value||"").trim();
     const body=[
       "Ad soyad: "+v("ad"),"E-posta: "+v("eposta"),"Instagram: "+v("instagram"),"Şehir: "+v("sehir"),
-      "Teknik: "+v("teknik"),"Portfolyo: "+v("portfolyo"),"","Kısa bio:",v("bio"),"","Eser künyeleri:",v("kunyeler"),"",
-      "Eser paylaşım izni: evet","Kişisel veri onayı: evet","","(Eser görsellerini bu e-postaya ekle.)"
+      "Teknik: "+v("teknik"),"Eser bağlantısı: "+v("portfolyo"),"","Kısa bio:",v("bio"),"","Eser künyeleri:",v("kunyeler"),"",
+      "Eser paylaşım izni: evet","Kişisel veri onayı: evet","","(Lütfen dosya ekleme; eserlerini yukarıdaki bağlantıdan göreceğiz.)"
     ].join("\n");
     location.href="mailto:info@artini.io?subject="+encodeURIComponent("Sanatçı başvurusu: "+v("ad"))+"&body="+encodeURIComponent(body);
   },true);
