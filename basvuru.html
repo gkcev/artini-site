@@ -59,6 +59,7 @@ input[type=text],input[type=email],input[type=url],select,textarea{width:100%;fo
 textarea{min-height:130px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,71,166,.12)}
 input[type=file]{font:400 15px var(--serif);color:var(--ink-soft);width:100%}
+.drop input[type=file]+input[type=file]{margin-top:10px}
 input[type=file]::file-selector-button{font:400 15px var(--serif);background:var(--wall);color:var(--ink);border:1px solid var(--line);border-radius:2px;padding:8px 14px;margin-right:12px;cursor:pointer}
 .drop{border:1px dashed #C9C2B6;background:var(--wall);padding:18px}
 .small{font-size:13.5px;color:var(--ink-soft);margin:8px 0 0}
@@ -120,7 +121,7 @@ footer a{text-decoration:none}
         <p class="hint">Künyende görünecek bilgiler.</p>
         <div class="fields">
           <div><label for="ad">Ad soyad</label><input type="text" id="ad" name="ad" autocomplete="name" required></div>
-          <div><label for="eposta">E-posta</label><input type="email" id="eposta" name="eposta" autocomplete="email" required></div>
+          <div><label for="eposta">E-posta</label><input type="email" id="eposta" name="email" autocomplete="email" required></div>
           <div><label for="ig">Instagram kullanıcı adı</label><input type="text" id="ig" name="instagram" placeholder="@kullaniciadi" autocapitalize="off" required></div>
           <div><label for="sehir">Şehir <span class="opt">(isteğe bağlı)</span></label><input type="text" id="sehir" name="sehir" autocomplete="address-level2"></div>
           <div><label for="teknik">Ağırlıklı teknik</label>
@@ -147,8 +148,10 @@ footer a{text-decoration:none}
         <div class="fields">
           <div class="full drop">
             <label for="gorsel">Eser görselleri</label>
-            <input type="file" id="gorsel" name="gorsel" accept="image/jpeg,image/png,image/webp" multiple required>
-            <p class="small">JPG, PNG ya da WEBP · en fazla 3 dosya · toplam 8 MB.</p>
+            <input type="file" id="gorsel" name="gorsel1" accept="image/jpeg,image/png,image/webp" required aria-label="1. eser görseli">
+            <input type="file" id="gorsel2" name="gorsel2" accept="image/jpeg,image/png,image/webp" aria-label="2. eser görseli (isteğe bağlı)">
+            <input type="file" id="gorsel3" name="gorsel3" accept="image/jpeg,image/png,image/webp" aria-label="3. eser görseli (isteğe bağlı)">
+            <p class="small">Her kutuya bir görsel · JPG, PNG ya da WEBP · 1. zorunlu, 2. ve 3. isteğe bağlı · üçü toplam 8 MB.</p>
             <p class="err" id="fileErr" hidden></p>
           </div>
           <div class="full"><label for="kunye">Eser künyeleri</label><textarea id="kunye" name="kunyeler" placeholder="1. Eser adı, 2024, yağlı boya tuval üzerine, 70 × 100 cm&#10;2. …"></textarea></div>
@@ -182,16 +185,15 @@ footer a{text-decoration:none}
 
 <script>
 /* dosya sınırı: Netlify Forms bir gönderide toplam 8 MB kabul ediyor */
-const form=document.getElementById("form"),files=document.getElementById("gorsel"),err=document.getElementById("fileErr");
+/* Netlify: her dosya alanı tek dosya alır, bu yüzden üç ayrı alan var */
+const form=document.getElementById("form"),inputs=["gorsel","gorsel2","gorsel3"].map(id=>document.getElementById(id)),files=inputs[0],err=document.getElementById("fileErr");
 function checkFiles(){
-  const list=[...files.files],mb=list.reduce((t,f)=>t+f.size,0)/1048576;
-  let msg="";
-  if(list.length>3) msg="En fazla 3 görsel seçebilirsin.";
-  else if(mb>8) msg=`Seçtiğin görseller toplam ${mb.toFixed(1)} MB; 8 MB'ın altına indirmen gerekiyor.`;
+  const mb=inputs.reduce((t,i)=>t+[...i.files].reduce((a,f)=>a+f.size,0),0)/1048576;
+  const msg=mb>8?`Seçtiğin görseller toplam ${mb.toFixed(1)} MB; 8 MB'ın altına indirmen gerekiyor.`:"";
   err.textContent=msg;err.hidden=!msg;files.setCustomValidity(msg);
   return !msg;
 }
-files.addEventListener("change",checkFiles);
+inputs.forEach(i=>i.addEventListener("change",checkFiles));
 form.addEventListener("submit",e=>{
   if(!checkFiles()){e.preventDefault();files.reportValidity();return}
   const b=document.getElementById("send");b.disabled=true;b.firstChild.textContent="Gönderiliyor… ";
